@@ -1,0 +1,117 @@
+package vista;
+
+import controlador.ControladorVenta;
+import dto.Funcion;
+import dto.Sala;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class VistaVenta extends JFrame {
+    private ControladorVenta controlador;
+    private JTextField txtNumeroVenta, txtCantidadBoletas, txtSala, txtPelicula, txtHora, txtPrecioBoleta;
+    private JTextArea txtResultados;
+    private JButton btnRegistrarVenta, btnMostrarVentas;
+
+    public VistaVenta() {
+        controlador = new ControladorVenta();
+        initComponents();
+    }
+
+    private void initComponents() {
+        setTitle("Gestión de Ventas de Boletos");
+        setSize(700, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        // Panel de entrada
+        JPanel panelEntrada = new JPanel(new GridLayout(6, 2));
+        JLabel lblNumeroVenta = new JLabel("Número de Venta:");
+        txtNumeroVenta = new JTextField();
+        JLabel lblCantidadBoletas = new JLabel("Cantidad de Boletas:");
+        txtCantidadBoletas = new JTextField();
+        JLabel lblSala = new JLabel("Número de Sala:");
+        txtSala = new JTextField();
+        JLabel lblPelicula = new JLabel("Pelicula:");
+        txtPelicula = new JTextField();
+        JLabel lblHora = new JLabel("Hora de la Función:");
+        txtHora = new JTextField();
+        JLabel lblPrecioBoleta = new JLabel("Precio de la Boleta:");
+        txtPrecioBoleta = new JTextField();
+
+        panelEntrada.add(lblNumeroVenta);
+        panelEntrada.add(txtNumeroVenta);
+        panelEntrada.add(lblCantidadBoletas);
+        panelEntrada.add(txtCantidadBoletas);
+        panelEntrada.add(lblSala);
+        panelEntrada.add(txtSala);
+        panelEntrada.add(lblPelicula);
+        panelEntrada.add(txtPelicula);
+        panelEntrada.add(lblHora);
+        panelEntrada.add(txtHora);
+        panelEntrada.add(lblPrecioBoleta);
+        panelEntrada.add(txtPrecioBoleta);
+
+        // Botones
+        btnRegistrarVenta = new JButton("Registrar Venta");
+        btnMostrarVentas = new JButton("Mostrar Ventas");
+
+        // Panel de resultados
+        txtResultados = new JTextArea(10, 50);
+        txtResultados.setEditable(false);
+        JScrollPane scrollResultados = new JScrollPane(txtResultados);
+
+        add(panelEntrada, BorderLayout.NORTH);
+        add(scrollResultados, BorderLayout.CENTER);
+        add(btnRegistrarVenta, BorderLayout.WEST);
+        add(btnMostrarVentas, BorderLayout.EAST);
+
+        // Configurar eventos
+        configurarEventos();
+    }
+
+    private void configurarEventos() {
+        btnRegistrarVenta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int numeroVenta = Integer.parseInt(txtNumeroVenta.getText());
+                    int cantidadBoletas = Integer.parseInt(txtCantidadBoletas.getText());
+                    int numeroSala = Integer.parseInt(txtSala.getText());
+                    String pelicula = txtPelicula.getText();
+                    String hora = txtHora.getText();
+                    double precioBoleta = Double.parseDouble(txtPrecioBoleta.getText());
+
+                    Sala sala = new Sala(numeroSala, 50); // Aforo fijo de 50 para ejemplo
+                    Funcion funcion = new Funcion(sala, pelicula, hora, precioBoleta);
+
+                    boolean registrada = controlador.registrarVenta(numeroVenta, funcion, sala, cantidadBoletas);
+                    if (registrada) {
+                        txtResultados.setText("Venta registrada exitosamente.\n");
+                    } else {
+                        txtResultados.setText("Error: No hay suficientes asientos disponibles.\n");
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Ingrese datos válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        btnMostrarVentas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txtResultados.setText("Ventas Registradas:\n");
+                controlador.obtenerVentas().forEach(venta -> txtResultados.append(venta.toString() + "\n"));
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            VistaVenta vista = new VistaVenta();
+            vista.setVisible(true);
+        });
+    }
+}
