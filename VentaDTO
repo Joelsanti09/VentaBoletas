@@ -1,0 +1,57 @@
+package dto;
+
+import java.time.LocalDate;
+
+public class Venta {
+    private int numeroVenta;
+    private Funcion funcion;
+    private Sala sala;
+    private int cantidadBoletas;
+    private LocalDate fechaVenta;
+    private double total;
+
+    public Venta(int numeroVenta, Funcion funcion, Sala sala, int cantidadBoletas, LocalDate fechaVenta) {
+        this.numeroVenta = numeroVenta;
+        this.funcion = funcion;
+        this.sala = sala;
+        this.cantidadBoletas = cantidadBoletas;
+        this.fechaVenta = fechaVenta;
+        this.total = cantidadBoletas * funcion.getPrecioBoleta();
+    }
+
+    public int getNumeroVenta() {
+        return numeroVenta;
+    }
+
+    public Funcion getFuncion() {
+        return funcion;
+    }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public int getCantidadBoletas() {
+        return cantidadBoletas;
+    }
+
+    public LocalDate getFechaVenta() {
+        return fechaVenta;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    @Override
+    public String toString() {
+        return "Venta{" +
+                "Número de Venta=" + numeroVenta +
+                ", Función=" + funcion +
+                ", Sala=" + sala.getNumeroSala() +
+                ", Cantidad de Boletas=" + cantidadBoletas +
+                ", Fecha de Venta=" + fechaVenta +
+                ", Total=$" + total +
+                '}';
+    }
+}
