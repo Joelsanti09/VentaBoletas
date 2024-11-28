@@ -1,0 +1,40 @@
+package dao;
+
+import dto.Venta;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class VentaDAO {
+    private List<Venta> ventas;
+
+    public VentaDAO() {
+        ventas = new ArrayList<>();
+    }
+
+    public boolean guardar(Venta venta) {
+        return ventas.add(venta);
+    }
+
+    public List<Venta> listar() {
+        return ventas;
+    }
+
+    public Venta buscarPorNumeroVenta(int numeroVenta) {
+        for (Venta venta : ventas) {
+            if (venta.getNumeroVenta() == numeroVenta) {
+                return venta;
+            }
+        }
+        return null;
+    }
+
+    public boolean eliminar(int numeroVenta) {
+        Venta venta = buscarPorNumeroVenta(numeroVenta);
+        if (venta != null) {
+            return ventas.remove(venta);
+        }
+        return false;
+    }
+}
+
