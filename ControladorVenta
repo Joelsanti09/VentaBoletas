@@ -1,0 +1,38 @@
+package controlador;
+
+import dao.VentaDAO;
+import dto.Funcion;
+import dto.Sala;
+import dto.Venta;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class ControladorVenta {
+    private VentaDAO ventaDAO;
+
+    public ControladorVenta() {
+        this.ventaDAO = new VentaDAO();
+    }
+
+    public boolean registrarVenta(int numeroVenta, Funcion funcion, Sala sala, int cantidadBoletas) {
+        if (cantidadBoletas > sala.getAforo()) {
+            return false; // No hay suficientes asientos disponibles
+        }
+        Venta venta = new Venta(numeroVenta, funcion, sala, cantidadBoletas, LocalDate.now());
+        return ventaDAO.guardar(venta);
+    }
+
+    public List<Venta> obtenerVentas() {
+        return ventaDAO.listar();
+    }
+
+    public Venta buscarVenta(int numeroVenta) {
+        return ventaDAO.buscarPorNumeroVenta(numeroVenta);
+    }
+
+    public boolean eliminarVenta(int numeroVenta) {
+        return ventaDAO.eliminar(numeroVenta);
+    }
+}
+
