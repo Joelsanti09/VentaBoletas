@@ -1,0 +1,27 @@
+package dto;
+
+public class Sala {
+    private int numeroSala;
+    private int aforo; // Capacidad total de la sala
+
+    public Sala(int numeroSala, int aforo) {
+        this.numeroSala = numeroSala;
+        this.aforo = aforo;
+    }
+
+    public int getNumeroSala() {
+        return numeroSala;
+    }
+
+    public int getAforo() {
+        return aforo;
+    }
+
+    @Override
+    public String toString() {
+        return "Sala{" +
+                "Número de Sala=" + numeroSala +
+                ", Aforo=" + aforo +
+                '}';
+    }
+}
