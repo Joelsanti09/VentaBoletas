@@ -1,0 +1,41 @@
+package dto;
+
+public class Funcion {
+    private Sala sala;
+    private String pelicula;
+    private String hora;
+    private double precioBoleta;
+
+    public Funcion(Sala sala, String pelicula, String hora, double precioBoleta) {
+        this.sala = sala;
+        this.pelicula = pelicula;
+        this.hora = hora;
+        this.precioBoleta = precioBoleta;
+    }
+
+    public Sala getSala() {
+        return sala;
+    }
+
+    public String getPelicula() {
+        return pelicula;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public double getPrecioBoleta() {
+        return precioBoleta;
+    }
+
+    @Override
+    public String toString() {
+        return "Funcion{" +
+                "Pelicula='" + pelicula + '\'' +
+                ", Hora='" + hora + '\'' +
+                ", Sala=" + sala.getNumeroSala() +
+                ", Precio Boleta=$" + precioBoleta +
+                '}';
+    }
+}
